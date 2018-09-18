@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="media-item-list">
+      <ul>
+        <li><a :href="media_items[0].url">{{ media_items[0].title }}</a></li>
+        <li><a :href="media_items[1].url">{{ media_items[1].title }}</a></li>
+      </ul>
+    </div>
+    <div id="dictation-app">
+      <h1>{{ title }}</h1>
+      <audio id="audio-player" controls :src="resource_url">
+        Your browser does not support the <code>audio</code> element.
+      </audio>
+      <ul id="clips">
+        <li>
+          <fieldset>
+              <legend>Clip Controls</legend>
+              <label for="start-time">Start Time (MM:SS)</label>
+              <input type="text" name="start-time" id="start-time" value="0">
+              <label for="end-time">End Time (MM:SS)</label>
+              <input type="text" name="end-time" id="end-time" value="10">
+              <label for="pause-time">Pause Time (seconds)</label>
+              <input type="number" name="pause-time" id="pause-time" value="10">
+              <button id="loop-button">Start / Stop Looping</button>
+              <button id="shift-next-frame-button">Shift To Next Frame</button>
+          </fieldset>
+          <textarea name="transcription" id="transcription" cols="30" rows="10"></textarea>
+          <textarea name="translation" id="translation" cols="30" rows="10"></textarea>
+        </li>
+      </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
