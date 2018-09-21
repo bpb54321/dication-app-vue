@@ -15,7 +15,7 @@
     </div>
     <div id="dictation-app">
       <h1>{{ title }}</h1>
-      <audio id="audio-player" controls :src="resource_url">
+      <audio id="audio-player" controls>
         Your browser does not support the <code>audio</code> element.
       </audio>
       <ul id="clips">
@@ -28,7 +28,7 @@
               <input type="text" name="end-time" id="end-time" value="10">
               <label for="pause-time">Pause Time (seconds)</label>
               <input type="number" name="pause-time" id="pause-time" value="10">
-              <button id="loop-button">Start / Stop Looping</button>
+              <button id="loop-button" @click="startStopLooping">Start / Stop Looping</button>
               <button id="shift-next-frame-button">Shift To Next Frame</button>
           </fieldset>
           <textarea name="transcription" id="transcription" cols="30" rows="10"></textarea>
@@ -38,6 +38,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="app.js"></script>
   </body>
 </html>
