@@ -8,13 +8,29 @@ $pause_time_input = $('#pause-time');
 const dictation_app = new Vue({
   el: "#dictation-app",
   data: {
-    "url": "http://127.0.0.1:8000/media-items/3/",
-    "id": 3,
-    "title": "Aux affaires étrangères",
-    "type": "audio",
-    "resource_url": "https://papp.csps-efpc.gc.ca/courses/dept/CSPS/C285/content/section03/audio/bc09.mp3",
-    "youtube_id": "",
-    media_items: [],
+    app_title: "Dictation App",
+    media_items: [
+      {
+        title: "Item 1",
+        url: "",
+      },
+      {
+        title: "Item 2",
+        url: "",
+      },
+    ],
+    current_media_item: {
+      url: "",
+      id: 0,
+      title: "",
+      type: "",
+      resource_url: "",
+      youtube_id: "",
+      clips: [],
+      clip_index: 0,
+    },
+    current_clip: {},
+    pause_time: 10, // seconds
   },
   beforeCreate: function() {
     // Save a pointer to the vue instance for use in the AJAX callback
@@ -33,11 +49,11 @@ const dictation_app = new Vue({
       },
     });
   },
-  mounted: function() {
-    // Load the audio player source
-    audio_player.src = this.$data.resource_url;
-    audio_player.load();
-  },
+  // mounted: function() {
+  //   // Load the audio player source
+  //   audio_player.src = this.$data.resource_url;
+  //   audio_player.load();
+  // },
   methods: {
     startStopLooping: function() {
       // if (this.$data.is_playing) {
@@ -49,30 +65,33 @@ const dictation_app = new Vue({
       // }
 
     },
-  },
-
-})
-
-const media_item_list = new Vue({
-  el: "#media-item-list",
-  data: {
-    media_items: [
-      {
-          "url": "http://127.0.0.1:8000/media-items/3/",
-          "id": 3,
-          "title": "Aux affaires étrangères",
-          "type": "audio",
-          "resource_url": "https://papp.csps-efpc.gc.ca/courses/dept/CSPS/C285/content/section03/audio/bc09.mp3",
-          "youtube_id": ""
-      },
-      {
-          "url": "http://127.0.0.1:8000/media-items/2/",
-          "id": 2,
-          "title": "Campagne de publicité",
-          "type": "audio",
-          "resource_url": "https://papp.csps-efpc.gc.ca/courses/dept/CSPS/C285/content/section03/audio/bc08.mp3",
-          "youtube_id": ""
+    loadMediaItem: function(media_item_endpoint) {
+      let vue_instance = this;
+      $.ajax({
+        method: "GET",
+        url: media_item_endpoint,
+        success: function(media_item) {
+          let $data = vue_instance.$data;
+          $data.current_media_item = media_item;
+          $data.current_media_item.clip_index = 0;
+          $data.current_clip = $data.current_media_item.clips[$data.current_media_item.clip_index];
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          console.log(textStatus);
+          console.log(errorThrown);
+        },
+      });
+    },
+    changeClip: function(clip_index) {
+      let number_of_clips = this.$data.current_media_item.clips.length;
+      if (clip_index < 0) {
+        clip_index = 0;
+      } else if (clip_index >= number_of_clips) {
+        clip_index = number_of_clips - 1;
       }
-    ],
+      this.$data.current_media_item.clip_index = clip_index;
+      this.$data.current_clip = this.$data.current_media_item.clips[clip_index];
+    }
   },
+
 })

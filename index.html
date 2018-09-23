@@ -4,35 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Dictation App</title>
   </head>
   <body>
-    <div id="media-item-list">
-      <ul>
-        <li><a :href="media_items[0].url">{{ media_items[0].title }}</a></li>
-        <li><a :href="media_items[1].url">{{ media_items[1].title }}</a></li>
-      </ul>
-    </div>
     <div id="dictation-app">
-      <h1>{{ title }}</h1>
+      <h1>{{ app_title }}</h1>
+      <div id="media-item-list">
+        <ul>
+          <li v-for="media_item in media_items">
+            <button @click="loadMediaItem(media_item.url);">{{ media_item.title }}</button>
+          </li>
+        </ul>
+      </div>
       <audio id="audio-player" controls>
         Your browser does not support the <code>audio</code> element.
       </audio>
-      <ul id="clips">
-        <li>
+      <div id="current-clip">
           <fieldset>
               <legend>Clip Controls</legend>
               <label for="start-time">Start Time (MM:SS)</label>
-              <input type="text" name="start-time" id="start-time" value="0">
+              <input type="text" name="start-time" id="start-time" :value="current_clip.start_time">
               <label for="end-time">End Time (MM:SS)</label>
-              <input type="text" name="end-time" id="end-time" value="10">
+              <input type="text" name="end-time" id="end-time" :value="current_clip.end_time">
               <label for="pause-time">Pause Time (seconds)</label>
-              <input type="number" name="pause-time" id="pause-time" value="10">
+              <input type="number" name="pause-time" id="pause-time" :value="pause_time">
               <button id="loop-button" @click="startStopLooping">Start / Stop Looping</button>
-              <button id="shift-next-frame-button">Shift To Next Frame</button>
+              <button id="shift-next-frame-button" @click="changeClip(current_media_item.clip_index - 1);">Previous Clip</button>
+              <button id="shift-next-frame-button" @click="changeClip(current_media_item.clip_index + 1)">Next Clip</button>
           </fieldset>
-          <textarea name="transcription" id="transcription" cols="30" rows="10"></textarea>
-          <textarea name="translation" id="translation" cols="30" rows="10"></textarea>
+          <textarea name="transcription" id="transcription" cols="30" rows="10">{{ current_clip.transcription }}</textarea>
+          <textarea name="translation" id="translation" cols="30" rows="10">{{ current_clip.translation }}</textarea>
+      </div>
+      <ul id="clips">
+        <li v-for="clip in current_media_item.clips">
+          <div>
+            <span class="start-time">{{ clip.start_time }}</span>
+            <span class="end-time">{{ clip.end_time }}</span>
+            <p class="transcription">{{ clip.transcription }}</p>
+            <p class="translation">{{ clip.translation }}</p>
+          </div>
         </li>
       </ul>
     </div>
