@@ -3,6 +3,7 @@ if (jQuery) {
 }
 
 audio_player = document.getElementById('audio-player');
+$pause_time_input = $('#pause-time');
 
 const dictation_app = new Vue({
   el: "#dictation-app",
@@ -13,6 +14,24 @@ const dictation_app = new Vue({
     "type": "audio",
     "resource_url": "https://papp.csps-efpc.gc.ca/courses/dept/CSPS/C285/content/section03/audio/bc09.mp3",
     "youtube_id": "",
+    media_items: [],
+  },
+  beforeCreate: function() {
+    // Save a pointer to the vue instance for use in the AJAX callback
+    let vue_instance = this;
+
+    // Get list of media items from API
+    $.ajax({
+      method: "GET",
+      url: "http://127.0.0.1:8000/media-items/",
+      success: function(data) {
+        vue_instance.$data.media_items = data;
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus);
+        console.log(errorThrown);
+      },
+    });
   },
   mounted: function() {
     // Load the audio player source
@@ -21,7 +40,14 @@ const dictation_app = new Vue({
   },
   methods: {
     startStopLooping: function() {
-      audio_player.play();
+      // if (this.$data.is_playing) {
+      //   audio_player.pause();
+      // } else {
+        audio_player.play();
+      //   let pause_time = $pause_time_input.val();
+      //   let timer = setTimeout(function() {}, pause_time)
+      // }
+
     },
   },
 
