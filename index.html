@@ -31,6 +31,7 @@
               <button id="loop-button" @click="startStopLooping">Start / Stop Looping</button>
               <button id="shift-next-frame-button" @click="changeClip(current_media_item.clip_index - 1);">Previous Clip</button>
               <button id="shift-next-frame-button" @click="changeClip(current_media_item.clip_index + 1)">Next Clip</button>
+              <button id="add-clip" @click="addClip">Add Clip</button>
           </fieldset>
           <textarea name="transcription" id="transcription" cols="30" rows="10">{{ current_clip.transcription }}</textarea>
           <textarea name="translation" id="translation" cols="30" rows="10">{{ current_clip.translation }}</textarea>

@@ -91,7 +91,29 @@ const dictation_app = new Vue({
       }
       this.$data.current_media_item.clip_index = clip_index;
       this.$data.current_clip = this.$data.current_media_item.clips[clip_index];
+    },
+    addClip: function() {
+      let previous_clip_end_time = convertTimeStringToDate(this.$data.current_clip.end_time);
+      let new_clip_start_time = previous_clip_end_time.getMinutes() + ":" + (previous_clip_end_time.getSeconds() + 1);
+      let new_clip = {
+        "url": "",
+        "id": -1,
+        "transcription": "",
+        "translation": "",
+        "start_time": new_clip_start_time,
+        "end_time": new_clip_start_time,
+        "media_item": this.$data.current_media_item.url,
+      };
+      this.$data.current_media_item.clips.push(new_clip);
     }
   },
 
-})
+});
+
+function convertTimeStringToDate(time_string) {
+  const time_components = time_string.split(":");
+  const minutes = time_components[0];
+  const seconds = time_components[1];
+  let date_object = new Date(0, 0, 0, 0, minutes, seconds, 0);
+  return date_object;
+}
