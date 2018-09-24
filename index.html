@@ -20,21 +20,36 @@
         Your browser does not support the <code>audio</code> element.
       </audio>
       <div id="current-clip">
+        <div>
           <fieldset>
-              <legend>Clip Controls</legend>
-              <label for="start-time">Start Time (MM:SS)</label>
-              <input type="text" name="start-time" id="start-time" :value="current_clip.start_time">
-              <label for="end-time">End Time (MM:SS)</label>
-              <input type="text" name="end-time" id="end-time" :value="current_clip.end_time">
-              <label for="pause-time">Pause Time (seconds)</label>
-              <input type="number" name="pause-time" id="pause-time" :value="pause_time">
-              <button id="loop-button" @click="startStopLooping">Start / Stop Looping</button>
-              <button id="shift-next-frame-button" @click="changeClip(current_media_item.clip_index - 1);">Previous Clip</button>
-              <button id="shift-next-frame-button" @click="changeClip(current_media_item.clip_index + 1)">Next Clip</button>
-              <button id="add-clip" @click="addClip">Add Clip</button>
+            <legend>Start time</legend>
+            <label for="start-time-hours">Hours</label>
+            <input type="number" name="start-time-hours" id="start-time-hours" :value="current_clip.start_hours">
+            <label for="start-time-minutes">Minutes</label>
+            <input type="number" name="start-time-minutes" id="start-time-minutes" :value="current_clip.start_minutes">
+            <label for="start-time-seconds">Seconds</label>
+            <input type="number" name="start-time-seconds" id="start-time-seconds" :value="current_clip.start_seconds">
           </fieldset>
+          <fieldset>
+            <legend>End time</legend>
+            <label for="end-time-hours">Hours</label>
+            <input type="number" name="end-time-hours" id="end-time-hours" :value="current_clip.end_hours">
+            <label for="end-time-minutes">Minutes</label>
+            <input type="number" name="end-time-minutes" id="end-time-minutes" :value="current_clip.end_minutes">
+            <label for="end-time-seconds">Seconds</label>
+            <input type="number" name="end-time-seconds" id="end-time-seconds" :value="current_clip.end_seconds">
+          </fieldset>
+          <label for="pause-time">Pause Time (seconds)</label>
+          <input type="number" name="pause-time" id="pause-time" :value="pause_time">
+          <button id="loop-button" @click="startStopLooping">Start / Stop Looping</button>
+          <button id="shift-next-frame-button" @click="changeClip(current_media_item.clip_index - 1);">Previous Clip</button>
+          <button id="shift-next-frame-button" @click="changeClip(current_media_item.clip_index + 1)">Next Clip</button>
+          <button id="add-clip" @click="addClip">Add Clip</button>
+          <label for="transcription">Transcription</label>
           <textarea name="transcription" id="transcription" cols="30" rows="10">{{ current_clip.transcription }}</textarea>
+          <label for="translation">Translation</label>
           <textarea name="translation" id="translation" cols="30" rows="10">{{ current_clip.translation }}</textarea>
+        <div>
       </div>
       <ul id="clips">
         <li v-for="clip in current_media_item.clips">

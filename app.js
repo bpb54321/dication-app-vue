@@ -29,7 +29,8 @@ const dictation_app = new Vue({
       clips: [],
       clip_index: 0,
     },
-    current_clip: {},
+    current_clip: {
+    },
     pause_time: 10, // seconds
   },
   beforeCreate: function() {
